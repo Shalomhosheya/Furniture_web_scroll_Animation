@@ -1,9 +1,31 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
-import productData from './data/products.json';
 
+// Import local images
+import sofaImage from './assets/images/sofa.jpg';
+import tableImage from './assets/images/diner-table-isolated-white-background-3d-illustration-cg-render_375001-16153.jpg';
+import chairImage from './assets/images/chair.jpg'; // Make sure you have this image
+
+// Product data with proper image references
+const productData = [
+  { 
+    image: sofaImage,
+    name: "Sofa", 
+    description: "Premium quality sofa for your living space." 
+  },
+  { 
+    image: chairImage,
+    name: "Chair", 
+    description: "Premium quality chair for your living space." 
+  },
+  { 
+    image: tableImage,
+    name: "Table", 
+    description: "Premium quality table for your living space." 
+  }
+];
 export default function App() {
-  const [darkMode, setDarkMode] = useState(false);
+   const [darkMode, setDarkMode] = useState(false);
   const [products, setProducts] = useState([]);
   const appleRef = useRef(null);
   const parallaxRef = useRef(null);
@@ -24,6 +46,7 @@ export default function App() {
 
     setProducts(productData);
   }, []);
+
 
   const { scrollYProgress } = useScroll({ target: appleRef, offset: ["start start", "end end"] });
   const clipPath = useTransform(scrollYProgress, [0, 1], ["circle(100% at 50% 50%)", "circle(0% at 50% 50%)"]);
@@ -84,9 +107,13 @@ export default function App() {
           style={{ y: yFurniture }}
         >
           <img 
-            src="" 
+            src={mainImage}
             alt="Modern furniture" 
             className="w-1/2 opacity-70"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = "https://source.unsplash.com/800x600/?modern,furniture";
+            }}
           />
         </motion.div>
         
@@ -140,12 +167,16 @@ export default function App() {
           >
             <div className="h-40 bg-gray-300 dark:bg-gray-700 rounded-xl mb-4 overflow-hidden">
               <motion.img 
-                src={`https://source.unsplash.com/400x300/?${item.name.replace(/\s+/g, '')}`}
+                src={tableimage}
                 alt={item.name}
                 className="w-full h-full object-cover"
                 initial={{ scale: 1 }}
                 whileHover={{ scale: 1.1 }}
                 transition={{ duration: 0.3 }}
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = `https://source.unsplash.com/400x300/?${item.name.replace(/\s+/g, '')}`;
+                }}
               />
             </div>
             <h3 className="text-xl font-semibold">{item.name}</h3>
@@ -160,6 +191,7 @@ export default function App() {
           </motion.div>
         ))}
       </section>
+
 
       {/* About Section */}
       <section id="about" className="p-10 bg-gray-50 dark:bg-gray-900 flex flex-col md:flex-row items-center gap-10">
