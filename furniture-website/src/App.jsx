@@ -6,6 +6,8 @@ import mainImage from './assets/images/main.jpg';
 import sofaImage from './assets/images/sofa.jpg';
 import tableImage from './assets/images/diner-table-isolated-white-background-3d-illustration-cg-render_375001-16153.jpg';
 import chairImage from './assets/images/chair.jpg';
+import aboutImage from './assets/images/about.jpg';
+import aboutImage2 from './assets/images/aboutme2.jpg';
 
 // Product data with proper image references
 const productData = [
@@ -203,13 +205,13 @@ export default function App() {
           viewport={{ once: true }}
         >
           <motion.img
-            src="https://source.unsplash.com/600x400/?workshop"
+            src={aboutImage}
             alt="Our workshop"
             className="rounded-2xl shadow-xl w-full"
             whileHover={{ scale: 1.02 }}
           />
           <motion.img
-            src="https://source.unsplash.com/400x300/?wood,texture"
+            src={aboutImage2}
             alt="Wood texture"
             className="absolute -bottom-8 -right-8 w-32 h-32 rounded-xl shadow-lg border-4 border-white dark:border-gray-800"
             initial={{ scale: 0.9 }}
