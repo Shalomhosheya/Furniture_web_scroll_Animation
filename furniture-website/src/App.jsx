@@ -2,9 +2,10 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 
 // Import local images
+import mainImage from './assets/images/main.jpg';
 import sofaImage from './assets/images/sofa.jpg';
 import tableImage from './assets/images/diner-table-isolated-white-background-3d-illustration-cg-render_375001-16153.jpg';
-import chairImage from './assets/images/chair.jpg'; // Make sure you have this image
+import chairImage from './assets/images/chair.jpg';
 
 // Product data with proper image references
 const productData = [
@@ -24,8 +25,9 @@ const productData = [
     description: "Premium quality table for your living space." 
   }
 ];
+
 export default function App() {
-   const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
   const [products, setProducts] = useState([]);
   const appleRef = useRef(null);
   const parallaxRef = useRef(null);
@@ -46,7 +48,6 @@ export default function App() {
 
     setProducts(productData);
   }, []);
-
 
   const { scrollYProgress } = useScroll({ target: appleRef, offset: ["start start", "end end"] });
   const clipPath = useTransform(scrollYProgress, [0, 1], ["circle(100% at 50% 50%)", "circle(0% at 50% 50%)"]);
@@ -167,7 +168,7 @@ export default function App() {
           >
             <div className="h-40 bg-gray-300 dark:bg-gray-700 rounded-xl mb-4 overflow-hidden">
               <motion.img 
-                src={tableimage}
+                src={item.image}
                 alt={item.name}
                 className="w-full h-full object-cover"
                 initial={{ scale: 1 }}
@@ -191,7 +192,6 @@ export default function App() {
           </motion.div>
         ))}
       </section>
-
 
       {/* About Section */}
       <section id="about" className="p-10 bg-gray-50 dark:bg-gray-900 flex flex-col md:flex-row items-center gap-10">
