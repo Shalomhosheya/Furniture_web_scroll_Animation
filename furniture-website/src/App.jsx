@@ -1,7 +1,11 @@
 import { motion } from 'framer-motion';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import productData from './data/products.json';
 
 export default function App() {
+  const [darkMode, setDarkMode] = useState(false);
+  const [products, setProducts] = useState([]);
+
   useEffect(() => {
     const links = document.querySelectorAll('a[href^="#"]');
     links.forEach(link => {
@@ -12,19 +16,26 @@ export default function App() {
           target.scrollIntoView({ behavior: 'smooth' });
         }
       });
+
+      return () => link.removeEventListener('click', () => {});
     });
+
+    setProducts(productData);
   }, []);
 
   return (
-    <div className="bg-white text-gray-900">
+    <div className={`${darkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 w-full bg-white shadow z-50 flex justify-between items-center px-6 py-4">
+      <nav className={`fixed top-0 left-0 w-full shadow z-50 flex justify-between items-center px-6 py-4 ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
         <h1 className="text-xl font-bold">FurniCo</h1>
         <div className="space-x-6">
-          <a href="#hero" className="hover:text-gray-500">Home</a>
-          <a href="#products" className="hover:text-gray-500">Products</a>
-          <a href="#about" className="hover:text-gray-500">About</a>
-          <a href="#newsletter" className="hover:text-gray-500">Contact</a>
+          <a href="#hero" className="hover:opacity-75">Home</a>
+          <a href="#products" className="hover:opacity-75">Products</a>
+          <a href="#about" className="hover:opacity-75">About</a>
+          <a href="#newsletter" className="hover:opacity-75">Contact</a>
+          <button onClick={() => setDarkMode(!darkMode)} className="ml-4 border px-2 py-1 rounded">
+            {darkMode ? 'Light' : 'Dark'} Mode
+          </button>
         </div>
       </nav>
 
@@ -45,24 +56,24 @@ export default function App() {
 
       {/* Product Showcase */}
       <section id="products" className="p-10 grid grid-cols-1 md:grid-cols-3 gap-8">
-        {['Sofa', 'Chair', 'Table'].map((item, i) => (
+        {products.map((item, i) => (
           <motion.div
-            key={item}
-            className="bg-gray-100 rounded-2xl shadow-lg p-6"
+            key={item.name}
+            className="bg-gray-100 dark:bg-gray-800 rounded-2xl shadow-lg p-6"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.2, duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <div className="h-40 bg-gray-300 rounded-xl mb-4"></div>
-            <h3 className="text-xl font-semibold">{item}</h3>
-            <p className="text-gray-600">Premium quality {item.toLowerCase()} for your living space.</p>
+            <div className="h-40 bg-gray-300 dark:bg-gray-700 rounded-xl mb-4"></div>
+            <h3 className="text-xl font-semibold">{item.name}</h3>
+            <p className="text-gray-600 dark:text-gray-300">{item.description}</p>
           </motion.div>
         ))}
       </section>
 
       {/* About Section */}
-      <section id="about" className="p-10 bg-gray-50 flex flex-col md:flex-row items-center gap-10">
+      <section id="about" className="p-10 bg-gray-50 dark:bg-gray-900 flex flex-col md:flex-row items-center gap-10">
         <motion.img
           src="https://source.unsplash.com/400x300/?furniture"
           alt="About us"
@@ -79,7 +90,7 @@ export default function App() {
           viewport={{ once: true }}
         >
           <h2 className="text-3xl font-bold mb-4">About Our Craft</h2>
-          <p className="text-gray-700 max-w-md">
+          <p className="text-gray-700 dark:text-gray-300 max-w-md">
             We blend modern aesthetics with time-honored craftsmanship to create stunning furniture pieces. Every item is a work of art.
           </p>
         </motion.div>
@@ -94,7 +105,7 @@ export default function App() {
           viewport={{ once: true }}
         >
           <h2 className="text-2xl font-bold mb-2">Stay Updated</h2>
-          <p className="text-gray-600 mb-4">Subscribe to our newsletter for the latest arrivals and offers.</p>
+          <p className="text-gray-600 dark:text-gray-300 mb-4">Subscribe to our newsletter for the latest arrivals and offers.</p>
           <input type="email" placeholder="Enter your email" className="border p-2 rounded-l-xl" />
           <button className="bg-black text-white px-4 py-2 rounded-r-xl">Subscribe</button>
         </motion.div>
